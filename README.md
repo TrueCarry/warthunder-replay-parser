@@ -111,3 +111,47 @@ replay_id_hex = download_replay._get_hex_id(replays[-1]["id"])
 # parse the replay
 print(parse_replay.parse_replay(replay_id_hex))
 ```
+
+## CSV Stats
+
+Add your own cookie to parse_many.py to row
+```
+cookies = { "identity_sid" : "" }
+```
+First download replay pages. Script will download 100 last pages of replays(around 2500 maps, ~20 minutes of games) to replays.json file
+```
+python parse_many.py
+```
+
+Then filter only tank RB battles. It will write fitlered maps to tank_replays.json
+```
+python filter_tanks.py
+```
+
+Now you can extract maps list. It will create maps.csv with all games present in tank_replays.json
+```
+python maps_to_csv.py
+```
+
+After that we need to download and parse all replays. This command starts from index after it's name(0 in example), downloads replay, parses it and writes to results/{id}.json. We don't store replays on disk after parsing because 1000 replays would take around 70gb of space.
+```
+python download_many.py 0
+```
+
+
+It takes a lot of time, but you can run mulitple copies with different starting offsets. For example
+```
+python download_many.py 0
+```
+AND in different window
+```
+python download_many.py 500
+```
+
+That will start 2 scripts, one will go from 0 and second from 500th replay. You can make as much of them as your internet allows. I think 4 threads use 100-200 Mb/s
+
+
+After you downloaded and parsed all replays you run players_to_csv.py script, which converts all files in results folder to one players.csv
+```
+python players_to_csv.py
+```

@@ -7,3 +7,10 @@ auth_cookie*
 
 # ignore downloaded replays (16 hex numbers)
 [0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f]
+
+results/
+maps.csv
+players.csv
+replays.json
+tank_replays.json
+vehicles.csv

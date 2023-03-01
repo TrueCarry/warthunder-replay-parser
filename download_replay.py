@@ -14,12 +14,13 @@ def download_replay(replay_id, store_path=None, num_files=-1):
 
     # get the hex id in correct format
     replay_id = _get_hex_id(replay_id)
+    result = []
 
-    if not store_path:
-        store_path = os.path.join(os.getcwd(), replay_id)
+    # if not store_path:
+        # store_path = os.path.join(os.getcwd(), "replays", replay_id)
 
     # create the folder
-    os.mkdir(store_path)
+    # os.mkdir(store_path)
 
     index = 0
     fileLink = 'http://wt-game-replays.warthunder.com/{}/{:04d}.wrpl'
@@ -32,14 +33,17 @@ def download_replay(replay_id, store_path=None, num_files=-1):
         print("downloading part %d" % (index + 1))
         if r.status_code == 404:
             break
+    
+        result.append(r.content)
 
-        path = os.path.join(store_path, f"{index:04d}.wrpl")
-        with open(path, 'wb') as f:
-            f.write(r.content)
+        # path = os.path.join(store_path, f"{index:04d}.wrpl")
+
+        # with open(path, 'wb') as f:
+            # f.write(r.content)
 
         index += 1
 
-    return index
+    return result
 
 
 def _get_hex_id(replay_id):

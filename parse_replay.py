@@ -4,17 +4,17 @@ import sys
 from datetime import datetime
 import json
 
-def parse_replay(folder):
+def parse_replay(data):
     """
     parse a replay which is stored in a folder
     Assumes "folder" is a directory with replay files 0000.wrpl, 0001.wrpl ...
     """
 
-    replay_files = _get_files(folder)
+    # replay_files = _get_files(folder)
 
     players = []
-    for file in replay_files:
-        print(f"parsing {file}")
+    for file in data:
+        # print(f"parsing {file}")
         players += _parse_replay_file(file)
     
     # join the playerids
@@ -35,7 +35,7 @@ def parse_replay(folder):
             "num_appearances": len([p for p in players if p["player_id"] == pid])
         })
 
-    data = _get_metadata(folder)
+    data = _get_metadata(data)
     data['num_players'] = len(players2)
     data['players'] = players2
 
@@ -62,9 +62,9 @@ def _get_metadata(folder):
     get the metadata from the replay files
     """
 
-    replay_file = os.path.join(folder, "0000.wrpl")
-    with open(replay_file, 'rb') as f:
-        replay = f.read()
+    # replay_file = os.path.join(folder, "0000.wrpl")
+    # with open(replay_file, 'rb') as f:
+    replay = folder[0]
 
     dir_letters = list(b"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890-_/.")
 
@@ -114,7 +114,7 @@ def _get_files(folder):
     return files
 
 
-def _parse_replay_file(path):
+def _parse_replay_file(replay):
     """
     parse a single replay files and return instances of vehicles
     """
@@ -128,8 +128,8 @@ def _parse_replay_file(path):
     # vehicles which are not player vehicles
     ignored_vehicles = ["dummy_plane"]
 
-    with open(path, 'rb') as f:
-        replay = f.read()
+    # with open(path, 'rb') as f:
+    #     replay = f.read()
         
     players = []
 
